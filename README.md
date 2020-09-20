@@ -31,7 +31,9 @@ Now, if you go to the Rayman Control Panel, set the language setting to somethin
 As pointed out [here](https://raymanpc.com/forum/viewtopic.php?f=89&t=25761&p=1418421&hilit=hard+coded#p1418421), the GOG version actually includes data and code for all three languages, but there is code in there to force it to use English. This patcher changes ten bytes of machine code in the `LOAD_CONFIG` function to replace the instructions forcing English with an instruction honouring the setting, like in other versions of Rayman 1. You can see the instructions in the comments of the source code for this patcher.
 
 To help understand it, here are screenshots of the relevant portion of `LOAD_CONFIG` from IDA Version 7.0.191002 (Freeware version), before and after patching:
+
 ![Before](https://github.com/PluMGMK/ray1_unlocklang/blob/master/before.png?raw=true)
+
 ![After](https://github.com/PluMGMK/ray1_unlocklang/blob/master/after.png?raw=true)
 
 Before patching, the code creates zero values (corresponding to the "English" language setting) in `bx` and `edx`, then uses them to set the global language variable to zero, and call `LoadLanguageTxt` with zero as its argument. The patch causes it to instead call `LoadLanguageTxt` with the value loaded *from* the global language variable, like other versions of the game. The four `nop`s are there to pad it out to the full ten bytes of code.
