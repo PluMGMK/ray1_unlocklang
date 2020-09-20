@@ -3,7 +3,7 @@ ray1_unlocklang
 
 Yay, the first use-case for my [pmw1-rs crate](https://github.com/PluMGMK/pmw1-rs)! It could probably use a better name though...
 
-Anyway, this is a very simple patcher for the RAYMAN.EXE file that ships with [GOG's version of "Rayman Forever"](https://www.gog.com/game/rayman_forever), to make it honour language settings instead of defaulting to English.
+Anyway, this is a very simple patcher for the `RAYMAN.EXE` file that ships with [GOG's version of "Rayman Forever"](https://www.gog.com/game/rayman_forever), to make it honour language settings instead of defaulting to English.
 
 # The problem
 
@@ -17,12 +17,12 @@ If you're comfortable with the command line:
 ```
 $ git clone https://github.com/PluMGMK/ray1_unlocklang.git
 $ cd ray1_unlocklang
-$ cargo run --release -- /PATH/TO/RAYMAN1.EXE
+$ cargo run --release -- /PATH/TO/RAYMAN.EXE
 ```
 
-Not your cup of tea? Or maybe you just don't have a Rust nightly toolchain installed? No problem, you can also grab the pre-compiled EXE from the Releases page. On Windows, you can just drag your `RAYMAN1.EXE` file onto `ray1_unlocklang.exe` in the File Explorer and it'll automatically get patched.
+Not your cup of tea? Or maybe you just don't have a Rust nightly toolchain installed? No problem, you can also grab the [pre-compiled EXE](https://github.com/PluMGMK/ray1_unlocklang/releases/download/v0.1.0/ray1_unlocklang.exe) from the Releases page. On Windows, you can just drag your `RAYMAN.EXE` file onto `ray1_unlocklang.exe` in the File Explorer and it'll automatically get patched.
 
-Either way, a `RAYMAN1.EXE.BAK` file will be created just in case.
+Either way, a `RAYMAN.EXE.BAK` file will be created just in case.
 
 Now, if you go to the Rayman Control Panel, set the language setting to something other than "English", and then run the game, you'll find that it actually runs in the language that you have selected! It'll still say "`RAYMAN (US) 1.21`" in the version string when it's starting up, but that doesn't matter. The actual game will be in your chosen language.
 
