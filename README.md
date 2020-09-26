@@ -36,6 +36,6 @@ To help understand it, here are screenshots of the relevant portion of `LOAD_CON
 
 ![After](https://github.com/PluMGMK/ray1_unlocklang/blob/master/after.png?raw=true)
 
-Before patching, the code creates zero values (corresponding to the "English" language setting) in `bx` and `edx`, then uses them to set the global language variable to zero, and call `LoadLanguageTxt` with zero as its argument. The patch causes it to instead call `LoadLanguageTxt` with the value loaded *from* the global language variable, like other versions of the game. The four `nop`s are there to pad it out to the full ten bytes of code.
+Before patching, the code creates zero values (corresponding to the "English" language setting) in `bh` and `edx`, then uses them to set the global language variable to zero, and call `LoadLanguageTxt` with zero as its argument. The patch causes it to instead call `LoadLanguageTxt` with the value loaded *from* the global language variable, like other versions of the game. The zeroing of `bh` and `edx` are left intact, since the former is rendered harmless, and the latter is required to ensure the upper three bytes of `edx` don't contain stale data (version 0.1.0 got this wrong!).
 
 A complication to this exercise is that Rayman 1 is in fact a compressed executable in the PMW1 format. Therefore, this program uses my [pmw1-rs crate](https://github.com/PluMGMK/pmw1-rs) to decompress the relevant piece of the EXE, patch it, and then recompress it. If that sounds interesting, you can check out that crate's source code and documentation too.

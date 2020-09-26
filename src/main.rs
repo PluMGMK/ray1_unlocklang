@@ -4,6 +4,8 @@ use std::env::args;
 use std::io::prelude::*;
 use std::fs::{File,OpenOptions};
 
+use std::convert::TryInto; // To turn slices into arrays...
+
 use pmw1::exe::Pmw1Exe;
 
 fn main() -> std::io::Result<()> {
@@ -59,18 +61,21 @@ fn main() -> std::io::Result<()> {
 
             // Find where it's zeroing the language setting.
             let zerolang_ops = &mut datavec[0x3939f..0x393a9];
-            let expected_ops = &[0x30, 0xff, // xor bh,bh
-                                0x31, 0xd2, // xor edx,edx
-                                0x88, 0x3d, 0x35, 0xfa, 0x03, 0x00]; // mov ds:0x3fa35, bh
-            let corrected_ops = &[0x90, 0x90, 0x90, 0x90, // nop (x4)
-                                0x8a, 0x15, 0x35, 0xfa, 0x03, 0x00]; // mov dl, ds:0x3fa35
-            assert_ne!(zerolang_ops, corrected_ops,
+            let expected_zeroops = &[0x30, 0xff, // xor bh,bh
+                                    0x31, 0xd2]; // xor edx,edx
+            let expected_movop = &[0x88, 0x3d]; // mov ds:<ADDR>, bh
+            let corrected_movop = &[0x8a, 0x15]; // mov dl, ds:<ADDR>
+            assert_eq!(&zerolang_ops[0..4], expected_zeroops,
+                       "EXE doesn't look like the Rayman 1 GOG version!\nOr maybe you already patched it with the older version of this patcher, in which case please restore a backup.");
+            assert_ne!(&zerolang_ops[4..6], corrected_movop,
                        "EXE is already patched!");
-            assert_eq!(zerolang_ops, expected_ops,
+            assert_eq!(&zerolang_ops[4..6], expected_movop,
                        "EXE doesn't look like the Rayman 1 GOG version!");
+            // Print out a tidbit using the rest of the slice.
+            println!("This version of Rayman 1 stores the language setting at ds:{:#010x}.", u32::from_le_bytes(zerolang_ops[6..10].try_into().unwrap()));
 
             // Now that we're happy we need to patch it, load in our substitute bytes
-            zerolang_ops.copy_from_slice(corrected_ops);
+            zerolang_ops[4..6].copy_from_slice(corrected_movop);
 
             datavec
         })?;
