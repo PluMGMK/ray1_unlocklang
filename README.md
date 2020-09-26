@@ -20,7 +20,7 @@ $ cd ray1_unlocklang
 $ cargo run --release -- /PATH/TO/RAYMAN.EXE
 ```
 
-Not your cup of tea? Or maybe you just don't have a Rust nightly toolchain installed? No problem, you can also grab the [pre-compiled EXE](https://github.com/PluMGMK/ray1_unlocklang/releases/download/v0.1.0/ray1_unlocklang.exe) from the Releases page. On Windows, you can just drag your `RAYMAN.EXE` file onto `ray1_unlocklang.exe` in the File Explorer and it'll automatically get patched.
+Not your cup of tea? Or maybe you just don't have a Rust nightly toolchain installed? No problem, you can also grab the [pre-compiled EXE](https://github.com/PluMGMK/ray1_unlocklang/releases/download/v0.2.0/ray1_unlocklang.exe) from the Releases page. On Windows, you can just drag your `RAYMAN.EXE` file onto `ray1_unlocklang.exe` in the File Explorer and it'll automatically get patched.
 
 Either way, a `RAYMAN.EXE.BAK` file will be created just in case.
 
